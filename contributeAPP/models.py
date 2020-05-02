@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import staticfiles
+from django.db.models import ImageField
 from django.db.models.signals import post_delete
 from django.dispatch.dispatcher import receiver
 
@@ -84,7 +85,23 @@ class MCQuestion(models.Model):
 
 
 #image deleteion after admin delete the row in database
+LOCAL_APPS = [
+    'contributeAPP',
+]
+
+def delete_files(files_list):
+	for file_ in files_list:
+		if file_ and hasattr(file_, 'storage') and hasattr(file_, 'path'):
+			# this accounts for different file storages (e.g. when using django-storages)
+			storage_, path_ = file_.storage, file_.path
+			storage_.delete(path_)
+
+
 @receiver(post_delete, sender=MCQuestion)
-def mymodel_delete(sender, instance, **kwargs):
-    # Pass false so FileField doesn't save the model.
-    instance.file.delete(False)
+def MCQuestion_image_delete(sender, instance, **kwargs):
+	# Pass false so FileField doesn't save the model
+	is_valid_app = sender._meta.app_label in LOCAL_APPS
+	if is_valid_app:
+		delete_files([getattr(instance, field_.name, None) for field_ in sender._meta.fields if isinstance(field_, ImageField)])
+	
+	#instance.file.delete(False)
