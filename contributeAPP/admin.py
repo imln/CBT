@@ -5,7 +5,7 @@ from contributeAPP.models import Exam
 from contributeAPP.models import ExamBranch
 from contributeAPP.models import BranchSubject
 from contributeAPP.models import SubjectTopic
-
+from contributeAPP.models import MCQuestion
 # Exam models register
 class ExamAdmin(admin.ModelAdmin):
 	list_display = ['id','name','description']
@@ -36,3 +36,11 @@ class SubjectTopicAdmin(admin.ModelAdmin):
 	ordering = ['id']
 
 admin.site.register(SubjectTopic,SubjectTopicAdmin)
+
+
+# MCQuestion  models register
+class MCQuestionAdmin(admin.ModelAdmin):
+	list_display = ['id','description','ques_upload','option1','option2','option3','option4','correct_option','solution','sol_upload','level_of_ques','about_question','topic_id']
+	ordering = ['id']
+
+admin.site.register(MCQuestion,MCQuestionAdmin)
