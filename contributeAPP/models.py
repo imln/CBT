@@ -65,16 +65,16 @@ LEVEL_OF_QUES = [
 ]
 class MCQuestion(models.Model):
 	description = models.TextField()
-	ques_upload = models.ImageField(upload_to= "questionIMG/%Y/%m/%d/")
+	ques_upload = models.ImageField(upload_to= "questionIMG/%Y/%m/%d/" , null=True , blank=True)
 	option1 = models.CharField(max_length=300)
 	option2 = models.CharField(max_length=300)
 	option3 = models.CharField(max_length=300)
 	option4 = models.CharField(max_length=300)	
 	correct_option = models.CharField(max_length=1, choices=CORRECT_OPTION_CHOICES)
 	solution = models.TextField()
-	sol_upload = models.ImageField(upload_to= "solutionIMG/%Y/%m/%d/")
+	sol_upload = models.ImageField(upload_to= "solutionIMG/%Y/%m/%d/" , null=True , blank=True)
 	level_of_ques = models.CharField(max_length=1, choices=LEVEL_OF_QUES)
-	about_question = models.CharField(max_length=300)
+	about_question = models.CharField(max_length=300, null=True , blank=True)
 	topic_id = models.ForeignKey(SubjectTopic, on_delete=models.CASCADE)
 
 	class Meta:
